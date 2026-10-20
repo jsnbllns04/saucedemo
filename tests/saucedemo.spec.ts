@@ -1,8 +1,5 @@
 import { test, expect } from '../fixtures';
 
-test('debug', async ({ pom }) => {
-  console.log(await pom.page.context().cookies());
-})
 
 test('Add items to cart', async ({ pom }) => {
   
