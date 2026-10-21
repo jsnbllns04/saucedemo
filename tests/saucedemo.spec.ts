@@ -154,6 +154,8 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.page.locator('[data-test="inventory-item"]')).toHaveCount(0)
   })
 
+  
+
   test('TC-44 Sort by name (Z-A)', async ({ pom }) => {
 
     const expectedNames = await pom.sortOption.getExpectedNames('desc')
