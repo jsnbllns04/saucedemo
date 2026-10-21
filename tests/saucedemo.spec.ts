@@ -1,6 +1,5 @@
 import { test, expect } from '../fixtures';
 
-
 test('Add items to cart', async ({ pom }) => {
   
   const items = ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt'];
