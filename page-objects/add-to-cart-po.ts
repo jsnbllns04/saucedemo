@@ -8,7 +8,6 @@ export class AddItemsToCart {
         this.page = page
     }
     
-
     async addItemsToCart(itemNames: string[]) {
         for (const name of itemNames) {
             const item = this.page.locator('.inventory_item', { hasText: name });
