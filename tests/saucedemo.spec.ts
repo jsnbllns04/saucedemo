@@ -189,7 +189,7 @@ test.describe('Sorting and adding items to cart', () => {
     pom.cartPage.expectBadgeCount(1);
 
     await pom.cartPage.open()
-    await expect(pom.page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
+    await expect(pom.page.locator('.cart_item').locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
     await pom.cartPage.checkout()
     await pom.checkOutFlow.checkoutFlow('Jason', 'Billones', '1123');
   })
