@@ -10,6 +10,7 @@ export class CheckoutFlow {
 
 
     async checkoutFlow(firstName: string, lastName: string, postalCode: string) {
+        await expect(this.page.locator('[data-test="title"]')).toHaveText('Checkout: Your Information')
         await this.page.getByRole('textbox', { name: 'First Name' }).fill(firstName)
         await this.page.getByRole('textbox', { name: 'Last Name' }).fill(lastName)
         await this.page.locator('[data-test="postalCode"]').fill(postalCode)

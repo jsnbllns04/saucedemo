@@ -154,7 +154,69 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.page.locator('[data-test="inventory-item"]')).toHaveCount(0)
   })
 
-  
+  test('TC-028 Cart persists after page refresh and navigation', async ({ pom }) => {
+    await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack']);
+    await pom.cartPage.expectBadgeCount(1);
+
+    await pom.page.reload();
+    await pom.cartPage.expectBadgeCount(1);
+
+    await pom.cartPage.open();
+    await expect(pom.page).toHaveURL(/cart\.html/);
+    await pom.cartPage.expectItemCount(1);
+
+    await pom.cartPage.continueShopping();
+    await expect(pom.page).toHaveURL(/inventory\.html/);
+    await pom.cartPage.expectBadgeCount(1);
+
+    // Refresh on the cart page
+    await pom.cartPage.open();
+    await pom.page.reload();
+    await pom.cartPage.expectItemCount(1);
+  })
+
+  test('TC-029 Continue Shopping returns to inventory', async ({ pom }) => {
+    await pom.cartPage.open();
+    await expect(pom.page).toHaveURL(/cart\.html/);
+
+    await pom.cartPage.continueShopping();
+    await expect(pom.page).toHaveURL(/inventory\.html/);
+    await expect(pom.page.locator('[data-test="title"]')).toHaveText('Products');
+  })
+
+  test('TC-030 End-to-end purchase (happy path)', async ({ pom }) => {
+    await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
+    pom.cartPage.expectBadgeCount(1);
+
+    await pom.cartPage.open()
+    await expect(pom.page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
+    await pom.cartPage.checkout()
+    await pom.checkOutFlow.checkoutFlow('Jason', 'Billones', '1123');
+  })
+
+  test('TC-034 Checkout with empty cart', async ({ pom }) => {
+    pom.cartPage.expectBadgeCount(0);
+    await pom.cartPage.open();
+    pom.cartPage.expectItemCount(0);
+    await pom.cartPage.checkout();
+  })
+
+  test('TC-039 Back Home after order, cart cleared', async ({ pom }) => {
+    await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
+    pom.cartPage.expectBadgeCount(1)
+
+    await pom.cartPage.open()
+    await expect(pom.page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
+    await pom.cartPage.checkout()
+    await pom.checkOutFlow.checkoutFlow('Jason', 'Billones', '1123');
+    
+    await pom.page.getByRole('button', { name: 'Back Home' }).click();
+    await expect(pom.page).toHaveURL(/inventory\.html/);
+    await expect(pom.cartPage.cartBadge).toBeHidden();
+
+    await pom.cartPage.open();
+    await pom.cartPage.expectEmpty();
+  })
 
   test('TC-44 Sort by name (Z-A)', async ({ pom }) => {
 
