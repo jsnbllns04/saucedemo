@@ -75,24 +75,37 @@ test.describe('Sorting and adding items to cart', () => {
     }
   })
 
+  test('TC-018 Sort by name (A-Z)', async ({ pom }) => {
+
+    const expectedNames = await pom.sortOption.getExpectedNames('asc')
+    await pom.sortOption.sortBy('az')
+
+    await expect(pom.sortOption.itemNames).toHaveText(expectedNames);
+  })
+
+  test('TC-019 Sort by price (high-low)', async ({ pom }) => {
+
+    const expectedPrices = await pom.sortOption.getExpectedPrices('desc')
+    await pom.sortOption.sortBy('hilo')
+
+    const actualPrices = await pom.sortOption.getItemPricesValues()
+
+    expect(actualPrices).toEqual(expectedPrices);
+  })
+
+
+  test('TC-020 Open product detail page', async ({ page }) => {
+    await page.locator('[data-test="inventory-item-name"]').first().click()
+
+    await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
+  })
+
   test('TC-023 Add one item to cart', async ({ pom }) => {
     await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
 
     await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1')
     const removeButton = (pom.page.getByRole('button', { name: 'Remove' }))
     await expect(removeButton).toBeVisible()
-  })
-
-  test('TC-026 Remove item from inventory page', async ({ pom }) => {
-    await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
-
-    await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1')
-    const removeButton = (pom.page.getByRole('button', { name: 'Remove' }))
-    await expect(removeButton).toBeVisible()
-
-    await removeButton.click();
-    await expect(pom.page.getByRole('button', { name: 'Add to cart' }).first()).toBeVisible()
-    await expect(pom.page.locator('[data-test="shopping-cart-link"]')).toHaveAttribute('aria-label', 'Cart, empty')
   })
 
   test('TC-024 Add all 6 items (max)', async ({ pom }) => {
@@ -111,12 +124,33 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.page.getByRole('button', { name: 'Back Home' }).click()
   })
 
-  test('TC-018 Sort by name (A-Z)', async ({ pom }) => {
+  test('TC-025 Empty cart (0 items)', async ({ page }) => {
+    await page.goto(`${process.env.BASE_URL}/inventory.html`)
+    await page.locator('[data-test="shopping-cart-link"]').click()
 
-    const expectedNames = await pom.sortOption.getExpectedNames('asc')
-    await pom.sortOption.sortBy('az')
+    await expect(page.locator('[data-test="inventory-item"]')).toHaveCount(0)
+  })
 
-    await expect(pom.sortOption.itemNames).toHaveText(expectedNames);
+  test('TC-026 Remove item from inventory page', async ({ pom }) => {
+    await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
+
+    await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1')
+    const removeButton = (pom.page.getByRole('button', { name: 'Remove' }))
+    await expect(removeButton).toBeVisible()
+
+    await removeButton.click();
+    await expect(pom.page.getByRole('button', { name: 'Add to cart' }).first()).toBeVisible()
+    await expect(pom.page.locator('[data-test="shopping-cart-link"]')).toHaveAttribute('aria-label', 'Cart, empty')
+  })
+
+  test('TC-027 Remove item from cart page', async ({ pom }) => {
+    await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
+
+    await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1')
+    await pom.page.locator('[data-test="shopping-cart-link"]').click()
+    await expect(pom.page.getByRole('button', { name: 'Remove' })).toBeVisible()
+    await pom.page.getByRole('button', { name: 'Remove' }).click()
+    await expect(pom.page.locator('[data-test="inventory-item"]')).toHaveCount(0)
   })
 
   test('TC-44 Sort by name (Z-A)', async ({ pom }) => {
@@ -125,17 +159,6 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.sortOption.sortBy('za')
 
     await expect(pom.sortOption.itemNames).toHaveText(expectedNames);
-  })
-
-
-  test('TC-019 Sort by price (high-low)', async ({ pom }) => {
-
-    const expectedPrices = await pom.sortOption.getExpectedPrices('desc')
-    await pom.sortOption.sortBy('hilo')
-
-    const actualPrices = await pom.sortOption.getItemPricesValues()
-
-    expect(actualPrices).toEqual(expectedPrices);
   })
 
   test('TC-45 Sort by price (low-high)', async ({ pom }) => {
