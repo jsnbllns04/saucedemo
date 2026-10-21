@@ -25,10 +25,23 @@ export class SortingFunction {
         return this.itemNames.allTextContents()
     }
 
+    async getItemPricesValues(): Promise<number[]> {
+        await this.itemPrices.first().waitFor()
+        const textPrices = this.itemPrices.allTextContents()
+        return (await textPrices).map(t => parseFloat(t.replace('$', '')))
+    }
+
     async getExpectedNames(order: 'asc' | 'desc'): Promise<string[]> {
         const names = await this.getItemNames()
         return [...names].sort((a, b) =>
             order === 'asc' ? a.localeCompare(b) : b.localeCompare(a)
         )
+    }
+
+    async getExpectedPrices(order: 'asc' | 'desc'): Promise<number[]> {
+        const price = await this.getItemPricesValues()
+        return [...price].sort((a, b) =>
+            order === 'asc' ? a - b : b - a)
+
     }
 }
