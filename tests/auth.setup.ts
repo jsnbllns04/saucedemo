@@ -1,10 +1,9 @@
 import { test as setup, expect } from '@playwright/test';
 import path from 'path';
-import fs from 'fs';
 
 const authFile = path.join(__dirname, '../playwright/.auth/user.json');
 
-setup('authenticate', async ({ page, browser, baseURL }) => {
+setup('authenticate', async ({ page }) => {
 
     await page.goto('/');
     await page.getByRole('textbox', { name: 'Username' }).fill(process.env.STANDARD_USER!)
@@ -13,7 +12,7 @@ setup('authenticate', async ({ page, browser, baseURL }) => {
     await page.waitForURL('**/inventory.html')
 
     await page.context().storageState({ path: authFile });
- 
- 
+
+
 }
 );

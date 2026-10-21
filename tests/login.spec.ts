@@ -101,7 +101,7 @@ test.describe('Login', () => {
 
     injectionCases.forEach(({ name, username, password }) => {
         test(`Injection/special chars: ${name}`, async ({ page }) => {
-   
+
             await page.getByRole('textbox', { name: 'Username' }).fill(username);
             await page.getByRole('textbox', { name: 'Password' }).fill(password);
             await page.getByRole('button', { name: 'Login' }).click();
@@ -112,4 +112,15 @@ test.describe('Login', () => {
             await expect(page).not.toHaveURL(/inventory\.html/);
         });
     });
+
+    test('Glitch performance user', async ({ page }) => {
+        const start = Date.now();
+        await page.getByRole('textbox', { name: 'Username' }).fill('performance_glitch_user');
+        await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
+        await page.getByRole('button', { name: 'Login' }).click();
+        await page.waitForURL(/inventory\.html/);
+        const duration = Date.now() - start;
+
+        expect(duration).toBeLessThan(6000);
+    })
 })
