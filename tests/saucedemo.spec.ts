@@ -68,16 +68,28 @@ test.describe('Sorting and adding items to cart', () => {
       await expect(image).toBeVisible()
       await expect(image).toHaveAttribute('alt', product.name)
 
-      const addtoCart = item.getByRole('button', {name:'Add to cart'})
+      const addtoCart = item.getByRole('button', { name: 'Add to cart' })
       await expect(addtoCart).toBeVisible()
       await expect(addtoCart).toBeEnabled()
       await expect(addtoCart).toHaveText('Add to cart')
     }
   })
 
-  test('Add items to cart', async ({ pom }) => {
+  test('Add 1 item to cart and remove item', async ({ pom }) => {
+    await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
 
-    const items = ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt'];
+    await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1')
+    const removeButton = (pom.page.getByRole('button', { name: 'Remove' }))
+    await expect(removeButton).toBeVisible()
+
+    await removeButton.click();
+    await expect(pom.page.getByRole('button', { name: 'Add to cart' }).first()).toBeVisible()
+    await expect(pom.page.locator('[data-test="shopping-cart-link"]')).toHaveAttribute('aria-label', 'Cart, empty')
+  })
+
+  test('Add 6 items to cart(max', async ({ pom }) => {
+
+    const items = ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt', 'Sauce Labs Fleece Jacket', 'Sauce Labs Onesie', 'Test.allTheThings() T-Shirt (Red)'];
 
     await pom.addItemsToCart.addItemsToCart(items);
     await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toHaveText(String(items.length));
