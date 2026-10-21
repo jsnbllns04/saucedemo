@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 import { SortingFunction } from './sorting-po';
-import { AddItemsToCart } from './add-to-card-po';
+import { AddItemsToCart } from './add-to-cart-po';
 import { CheckoutFlow } from './checkout-flow-po';
 
 export class PageManager {
