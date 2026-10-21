@@ -97,7 +97,7 @@ test.describe('Sorting and adding items to cart', () => {
   test('TC-020 Open product detail page', async ({ page }) => {
     await page.goto(`${process.env.BASE_URL}/inventory.html`)
     await page.locator('[data-test="inventory-item-name"]').first().click()
-
+    await expect(page).toHaveURL(/inventory-item\.html/)
     await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
   })
 
@@ -209,7 +209,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
     await pom.cartPage.checkout()
     await pom.checkOutFlow.checkoutFlow('Jason', 'Billones', '1123');
-    
+
     await pom.page.getByRole('button', { name: 'Back Home' }).click();
     await expect(pom.page).toHaveURL(/inventory\.html/);
     await expect(pom.cartPage.cartBadge).toBeHidden();
