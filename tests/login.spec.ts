@@ -26,6 +26,12 @@ test.describe('Login', () => {
             error: 'Username and password do not match any user in this service'
         },
         {
+            name: 'case sensitive username',
+            username: 'STANDARD_USER',
+            password: process.env.PASSWORD!,
+            error: 'Username and password do not match any user in this service'
+        },
+        {
             name: 'wrong password',
             username: process.env.STANDARD_USER!,
             password: 'wrong_password',
