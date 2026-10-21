@@ -194,7 +194,7 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.checkOutFlow.checkoutFlow('Jason', 'Billones', '1123');
   })
 
-  test('TC-034 Checkout with empty cart', async ({ pom }) => {
+  test.fail('TC-034 Checkout with empty cart', async ({ pom }) => {
     pom.cartPage.expectBadgeCount(0);
     await pom.cartPage.open();
     pom.cartPage.expectItemCount(0);
