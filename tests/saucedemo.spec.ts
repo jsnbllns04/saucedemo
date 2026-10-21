@@ -96,7 +96,7 @@ test.describe('Sorting and adding items to cart', () => {
 
   test('TC-020 Open product detail page', async ({ page }) => {
     await page.goto(`${process.env.BASE_URL}/inventory.html`)
-    await page.locator('[data-test="inventory-item-name"]').first().click()
+    await page.getByTestId('item-4-title-link').click()
     await expect(page).toHaveURL(/inventory-item\.html/)
     await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
   })
