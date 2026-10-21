@@ -18,6 +18,8 @@ test.describe('Login', () => {
         await expect(page.locator('[data-test="shopping-cart-link"]')).toBeVisible();
     });
 
+    const maxLength = 256;
+
     const invalidCases = [
         {
             name: 'wrong username',
@@ -60,6 +62,19 @@ test.describe('Login', () => {
             password: process.env.PASSWORD!,
             error: 'Sorry, this user has been locked out',
         },
+        {
+            name: 'username with leading and trailing space',
+            username: ' standard_user ',
+            password: process.env.PASSWORD!,
+            error: 'Username and password do not match any user in this service'
+        },
+        {
+            name: 'Very long username (256+ chars)',
+            username: 'a'.repeat(maxLength),
+            password: process.env.PASSWORD!,
+            error: 'Username and password do not match any user in this service'
+        },
+
     ]
 
     invalidCases.forEach(({ name, username, password, error }) => {
@@ -72,4 +87,29 @@ test.describe('Login', () => {
             await expect(page).not.toHaveURL(/inventory\.html/);
         });
     })
+
+
+    const injectionCases = [
+        { name: 'SQL injection (OR 1=1)', username: "' OR '1'='1", password: "' OR '1'='1" },
+        { name: 'SQL injection (comment)', username: "admin'--", password: 'anything' },
+        { name: 'XSS script tag', username: '<script>alert(1)</script>', password: process.env.PASSWORD! },
+        { name: 'HTML tag', username: '<b>bold</b>', password: process.env.PASSWORD! },
+        { name: 'special characters', username: '!@#$%^&*()_+{}[]|\\:;"<>,.?/~`', password: process.env.PASSWORD! },
+        { name: 'whitespace only', username: '   ', password: process.env.PASSWORD! },
+        { name: 'unicode / emoji', username: '用户😀', password: process.env.PASSWORD! },
+    ];
+
+    injectionCases.forEach(({ name, username, password }) => {
+        test(`Injection/special chars: ${name}`, async ({ page }) => {
+   
+            await page.getByRole('textbox', { name: 'Username' }).fill(username);
+            await page.getByRole('textbox', { name: 'Password' }).fill(password);
+            await page.getByRole('button', { name: 'Login' }).click();
+
+            await expect(page.locator('[data-test="error"]')).toContainText(
+                'Username and password do not match any user in this service'
+            );
+            await expect(page).not.toHaveURL(/inventory\.html/);
+        });
+    });
 })

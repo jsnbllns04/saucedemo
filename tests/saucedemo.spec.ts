@@ -23,3 +23,4 @@ test('Sorting Alphabetically', async ({ pom }) => {
 
   await expect(pom.sortOption.itemNames).toHaveText(expectedNames);
 })
+
