@@ -169,7 +169,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.page).toHaveURL(/inventory\.html/);
     await pom.cartPage.expectBadgeCount(1);
 
-    // Refresh on the cart page
+  
     await pom.cartPage.open();
     await pom.page.reload();
     await pom.cartPage.expectItemCount(1);

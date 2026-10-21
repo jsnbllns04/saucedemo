@@ -19,6 +19,7 @@ export class CartPage {
 
     async open() {
         await this.cartLink.click()
+        await expect(this.page).toHaveURL(/cart\.html/)
     }
 
     async continueShopping() {
