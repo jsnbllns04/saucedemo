@@ -3,7 +3,7 @@ import { test, expect } from '../fixtures';
 const items = ['Sauce Labs Backpack', 'Sauce Labs Bike Light'];
 
 const socialLinks = [
-  { name: 'twitter', url: /(twitter|x)\.com\/saucelabs/ },
+  { name: 'x', url: /x\.com\/saucelabs/ },
   { name: 'facebook', url: /facebook\.com\/saucelabs/ },
   { name: 'linkedin', url: /linkedin\.com/ },
 ] as const;
@@ -38,12 +38,9 @@ test.describe('Menu and Footer', () => {
   socialLinks.forEach(({ name, url }) => {
     test(`TC-042 Footer social link opens correctly: ${name}`, async ({ pom }) => {
       await expect(pom.navigationPage.footer).toBeVisible();
-
-      const popup = await pom.navigationPage.openSocialLink(name);
-      await expect(popup).toHaveURL(url);
-
-      await popup.close();
-      await expect(pom.page).toHaveURL(/inventory\.html/);
+      const link = pom.navigationPage.socialLink(name);
+      await expect(link).toHaveAttribute('href', url);
+      await expect(link).toHaveAttribute('target', '_blank');
     })
   })
 })

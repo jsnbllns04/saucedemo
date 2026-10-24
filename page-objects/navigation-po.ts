@@ -1,6 +1,6 @@
 import { Page, Locator } from '@playwright/test'
 
-export type SocialName = 'twitter' | 'facebook' | 'linkedin';
+export type SocialName = 'x' | 'facebook' | 'linkedin';
 
 export class NavigationPage {
     readonly page: Page;
