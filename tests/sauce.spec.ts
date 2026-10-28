@@ -220,7 +220,7 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.cartPage.expectEmpty();
   })
 
-  test('TC-44 Sort by name (Z-A)', async ({ pom }) => {
+  test('TC-044 Sort by name (Z-A)', async ({ pom }) => {
 
     const expectedNames = await pom.sortOption.getExpectedNames('desc')
     await pom.sortOption.sortBy('za')
@@ -228,7 +228,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.sortOption.itemNames).toHaveText(expectedNames);
   })
 
-  test('TC-45 Sort by price (low-high)', async ({ pom }) => {
+  test('TC-045 Sort by price (low-high)', async ({ pom }) => {
 
     const expectedPrices = await pom.sortOption.getExpectedPrices('asc')
     await pom.sortOption.sortBy('lohi')
