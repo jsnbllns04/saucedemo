@@ -13,6 +13,30 @@ test.describe('Access & user types', () => {
         await expect(pom.loginPage.loginButton).toBeVisible();
     })
 
+    test('TC-014 Password field is masked', async ({ pom }) => {
+        await pom.loginPage.open();
+        await pom.loginPage.passwordInput.fill(PASSWORD);
+
+        // Masked: the browser hides characters only for type="password"
+        await expect(pom.loginPage.passwordInput).toHaveAttribute('type', 'password');
+
+        // The field still accepted the input
+        await expect(pom.loginPage.passwordInput).toHaveValue(PASSWORD);
+    });
+
+    test('TC-021 problem_user shows wrong product images', async ({ pom }) => {
+        test.fail()
+        await pom.loginPage.open();
+        await pom.loginPage.login(USERS.problem, PASSWORD);
+        await expect(pom.inventoryPage.title).toHaveText('Products');
+
+        const sources = await pom.inventoryPage.getImageSources();
+
+        // Every product should have its own image
+        expect(new Set(sources).size).toBe(sources.length);
+    });
+
+
     test.fail('TC-022 visual_user layout differences', async ({ pom }) => {
         await pom.inventoryPage.openInventoryPage()
         await pom.loginPage.login(USERS.standard, PASSWORD);
