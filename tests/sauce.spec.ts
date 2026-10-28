@@ -99,7 +99,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(page).toHaveURL(/inventory\.html/);
     await page.getByTestId('item-4-title-link').click()
     await expect(page).toHaveURL(/inventory-item\.html/)
-    await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
+    await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText(['Sauce Labs Backpack'])
   })
 
   test('TC-023 Add one item to cart', async ({ pom }) => {
@@ -205,7 +205,7 @@ test.describe('Sorting and adding items to cart', () => {
   test('TC-039 Back Home after order, cart cleared', async ({ pom }) => {
     await expect(pom.page).toHaveURL(/inventory\.html/);
     await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
-    pom.cartPage.expectBadgeCount(1)
+    await pom.cartPage.expectBadgeCount(1)
 
     await pom.cartPage.open()
     await expect(pom.page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
