@@ -8,7 +8,7 @@ test.describe('Login', () => {
         await page.goto('/');
     })
 
-    test('TC-001 Login with valid standard_user', async ({ page }) => {
+    test('SAUC-T1 Login with valid standard_user', async ({ page }) => {
         await page.getByRole('textbox', { name: 'Username' }).fill(process.env.STANDARD_USER!);
         await page.getByRole('textbox', { name: 'Password' }).fill(process.env.PASSWORD!);
         await page.getByRole('button', { name: 'Login' }).click();
@@ -22,63 +22,63 @@ test.describe('Login', () => {
 
     const invalidCases = [
         {
-            id: 'TC-004',
+            id: 'SAUC-T4',
             name: 'wrong username',
             username: 'wrong_user',
             password: process.env.PASSWORD!,
             error: 'Username and password do not match any user in this service'
         },
         {
-            id: 'TC-009',
+            id: 'SAUC-T9',
             name: 'case sensitive username',
             username: 'STANDARD_USER',
             password: process.env.PASSWORD!,
             error: 'Username and password do not match any user in this service'
         },
         {
-            id: 'TC-005',
+            id: 'SAUC-T5',
             name: 'wrong password',
             username: process.env.STANDARD_USER!,
             password: 'wrong_password',
             error: 'Username and password do not match any user in this service'
         },
         {
-            id: 'TC-007',
+            id: 'SAUC-T7',
             name: 'empty username',
             username: '',
             password: process.env.PASSWORD!,
             error: 'Username is required',
         },
         {
-            id: 'TC-008',
+            id: 'SAUC-T8',
             name: 'empty password',
             username: process.env.STANDARD_USER!,
             password: '',
             error: 'Password is required',
         },
         {
-            id: 'TC-006',
+            id: 'SAUC-T6',
             name: 'both fields empty',
             username: '',
             password: '',
             error: 'Username is required',
         },
         {
-            id: 'TC-003',
+            id: 'SAUC-T3',
             name: 'locked out user',
             username: 'locked_out_user',
             password: process.env.PASSWORD!,
             error: 'Sorry, this user has been locked out',
         },
         {
-            id: 'TC-010',
+            id: 'SAUC-T10',
             name: 'username with leading and trailing space',
             username: ' standard_user ',
             password: process.env.PASSWORD!,
             error: 'Username and password do not match any user in this service'
         },
         {
-            id: 'TC-011',
+            id: 'SAUC-T11',
             name: 'Very long username (256+ chars)',
             username: 'a'.repeat(maxLength),
             password: process.env.PASSWORD!,
@@ -110,7 +110,7 @@ test.describe('Login', () => {
     ];
 
     injectionCases.forEach(({ name, username, password }) => {
-        test(`TC-012 Special characters / injection strings in login: ${name}`, async ({ page }) => {
+        test(`SAUC-T12 Special characters / injection strings in login: ${name}`, async ({ page }) => {
 
             await page.getByRole('textbox', { name: 'Username' }).fill(username);
             await page.getByRole('textbox', { name: 'Password' }).fill(password);
@@ -123,7 +123,7 @@ test.describe('Login', () => {
         });
     });
 
-    test('TC-016 performance_glitch_user login delay', async ({ page }) => {
+    test('SAUC-T16 performance_glitch_user login delay', async ({ page }) => {
         const start = Date.now();
         await page.getByRole('textbox', { name: 'Username' }).fill('performance_glitch_user');
         await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');

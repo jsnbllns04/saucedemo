@@ -11,7 +11,7 @@ const socialLinks = [
 
 test.describe('Menu and Footer', () => {
 
-  test('TC-015 Logout returns to login page', async ({ pom }) => {
+  test('SAUC-T15 Logout returns to login page', async ({ pom }) => {
     await pom.navigationPage.logout();
 
     await expect(pom.page).toHaveURL('/');
@@ -20,7 +20,7 @@ test.describe('Menu and Footer', () => {
     await expect(pom.loginPage.errorMessage).toContainText('You can only access');
   })
 
-  test('TC-040 Reset App State clears cart', async ({ pom }) => {
+  test('SAUC-T40 Reset App State clears cart', async ({ pom }) => {
     await pom.addItemsToCart.addItemsToCart(items)
     await pom.cartPage.expectBadgeCount(items.length)
     await pom.navigationPage.resetAppState();
@@ -30,13 +30,13 @@ test.describe('Menu and Footer', () => {
     await pom.cartPage.expectEmpty();
   })
 
-  test('TC-041 About link', async ({ pom }) => {
+  test('SAUC-T41 About link', async ({ pom }) => {
     await pom.navigationPage.about()
     await expect(pom.page).toHaveURL(/saucelabs\.com/);
   })
 
   socialLinks.forEach(({ name, url }) => {
-    test(`TC-042 Footer social link opens correctly: ${name}`, async ({ pom }) => {
+    test(`SAUC-T42 Footer social link opens correctly: ${name}`, async ({ pom }) => {
       await expect(pom.navigationPage.footer).toBeVisible();
       const link = pom.navigationPage.socialLink(name);
       await expect(link).toHaveAttribute('href', url);

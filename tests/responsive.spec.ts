@@ -8,7 +8,7 @@ const viewports = [
 
 // SAUC-T43
 viewports.forEach(({ name, width, height }) => {
-    test(`TC-043 Responsive layout: ${name} (${width}x${height})`, async ({ pom }) => {
+    test(`SAUC-T43 Responsive layout: ${name} (${width}x${height})`, async ({ pom }) => {
         await pom.page.setViewportSize({ width, height });
         await pom.inventoryPage.openInventoryPage();
 

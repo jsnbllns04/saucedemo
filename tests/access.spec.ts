@@ -5,7 +5,7 @@ test.use({ storageState: { cookies: [], origins: [] } });
 
 test.describe('Access & user types', () => {
 
-    test('TC-013 Access inventory without logging in', async ({ pom }) => {
+    test('SAUC-T13 Access inventory without logging in', async ({ pom }) => {
         await pom.inventoryPage.openInventoryPage()
 
         await expect(pom.page).toHaveURL('/');
@@ -13,7 +13,7 @@ test.describe('Access & user types', () => {
         await expect(pom.loginPage.loginButton).toBeVisible();
     })
 
-    test('TC-014 Password field is masked', async ({ pom }) => {
+    test('SAUC-T14 Password field is masked', async ({ pom }) => {
         await pom.loginPage.open();
         await pom.loginPage.passwordInput.fill(PASSWORD);
 
@@ -24,7 +24,7 @@ test.describe('Access & user types', () => {
         await expect(pom.loginPage.passwordInput).toHaveValue(PASSWORD);
     });
 
-    test('TC-021 problem_user shows wrong product images', async ({ pom }) => {
+    test('SAUC-T21 problem_user shows wrong product images', async ({ pom }) => {
         test.fail()
         await pom.loginPage.open();
         await pom.loginPage.login(USERS.problem, PASSWORD);
@@ -37,7 +37,7 @@ test.describe('Access & user types', () => {
     });
 
 
-    test.fail('TC-022 visual_user layout differences', async ({ pom }) => {
+    test.fail('SAUC-T22 visual_user layout differences', async ({ pom }) => {
         await pom.inventoryPage.openInventoryPage()
         await pom.loginPage.login(USERS.standard, PASSWORD);
         const standardLayout = await pom.inventoryPage.getLayout();

@@ -13,28 +13,28 @@ test.describe('Checkout', () => {
         await expect(pom.checkOutFlow.title).toHaveText('Checkout: Your Information');
     })
 
-    test('TC-031 First name empty', async ({ pom }) => {
+    test('SAUC-T31 First name empty', async ({ pom }) => {
         await pom.checkOutFlow.fillInformation('', lastName, postalCode);
         await pom.checkOutFlow.continue()
         await expect(pom.checkOutFlow.errorMessage).toHaveText('Error: First Name is required')
         await expect(pom.page).toHaveURL(/checkout-step-one\.html/);
     })
 
-    test('TC-032 Last name empty', async ({ pom }) => {
+    test('SAUC-T32 Last name empty', async ({ pom }) => {
         await pom.checkOutFlow.fillInformation(firstName, '', postalCode);
         await pom.checkOutFlow.continue()
         await expect(pom.checkOutFlow.errorMessage).toHaveText('Error: Last Name is required')
         await expect(pom.page).toHaveURL(/checkout-step-one\.html/);
     })
 
-    test('TC-033 Postal code empty', async ({ pom }) => {
+    test('SAUC-T33 Postal code empty', async ({ pom }) => {
         await pom.checkOutFlow.fillInformation(firstName, lastName, '');
         await pom.checkOutFlow.continue()
         await expect(pom.checkOutFlow.errorMessage).toHaveText('Error: Postal Code is required')
         await expect(pom.page).toHaveURL(/checkout-step-one\.html/);
     })
 
-    test('TC-035 Very long values in checkout fields (256+ chars)', async ({ pom }) => {
+    test('SAUC-T35 Very long values in checkout fields (256+ chars)', async ({ pom }) => {
         const longValue = 'a'.repeat(LONG_LENGTH)
 
         await pom.checkOutFlow.fillInformation(longValue, longValue, longValue)
@@ -52,7 +52,7 @@ test.describe('Checkout', () => {
     ];
 
     specialCases.forEach(({ name, first, last, postal }) => {
-        test(`TC-036 Special characters / numbers: ${name}`, async ({ pom }) => {
+        test(`SAUC-T36 Special characters / numbers: ${name}`, async ({ pom }) => {
             await pom.checkOutFlow.fillInformation(first, last, postal);
             await pom.checkOutFlow.continue();
 
@@ -61,7 +61,7 @@ test.describe('Checkout', () => {
         })
     })
 
-    test('TC-037 Order total calculation', async ({ pom }) => {
+    test('SAUC-T37 Order total calculation', async ({ pom }) => {
         await pom.checkOutFlow.fillInformation(firstName, lastName, postalCode);
         await pom.checkOutFlow.continue();
         await expect(pom.checkOutFlow.title).toHaveText('Checkout: Overview');
@@ -75,7 +75,7 @@ test.describe('Checkout', () => {
         expect(total).toBeCloseTo(subtotal + tax, 2);
     })
 
-    test('TC-038 Cancel on checkout info page', async ({ pom }) => {
+    test('SAUC-T38 Cancel on checkout info page', async ({ pom }) => {
         await pom.checkOutFlow.fillInformation(firstName, lastName, postalCode);
         await pom.checkOutFlow.cancel();
 

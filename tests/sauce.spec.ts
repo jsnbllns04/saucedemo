@@ -52,7 +52,7 @@ const productInformation: Product[] = [
 ]
 
 test.describe('Sorting and adding items to cart', () => {
-  test('TC-017 Inventory shows 6 products with name, price, image, button', async ({ page }) => {
+  test('SAUC-T17 Inventory shows 6 products with name, price, image, button', async ({ page }) => {
     await page.goto(`${process.env.BASE_URL}/inventory.html`)
     const items = page.locator('[data-test="inventory-item"]')
 
@@ -75,7 +75,7 @@ test.describe('Sorting and adding items to cart', () => {
     }
   })
 
-  test('TC-018 Sort by name (A-Z)', async ({ pom }) => {
+  test('SAUC-T18 Sort by name (A-Z)', async ({ pom }) => {
 
     const expectedNames = await pom.sortOption.getExpectedNames('asc')
     await pom.sortOption.sortBy('az')
@@ -83,7 +83,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.sortOption.itemNames).toHaveText(expectedNames);
   })
 
-  test('TC-019 Sort by price (high-low)', async ({ pom }) => {
+  test('SAUC-T19 Sort by price (high-low)', async ({ pom }) => {
 
     const expectedPrices = await pom.sortOption.getExpectedPrices('desc')
     await pom.sortOption.sortBy('hilo')
@@ -94,7 +94,7 @@ test.describe('Sorting and adding items to cart', () => {
   })
 
 
-  test('TC-020 Open product detail page', async ({ page }) => {
+  test('SAUC-T20 Open product detail page', async ({ page }) => {
     await page.goto(`${process.env.BASE_URL}/inventory.html`)
     await expect(page).toHaveURL(/inventory\.html/);
     await page.getByTestId('item-4-title-link').click()
@@ -102,7 +102,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText(['Sauce Labs Backpack'])
   })
 
-  test('TC-023 Add one item to cart', async ({ pom }) => {
+  test('SAUC-T23 Add one item to cart', async ({ pom }) => {
     await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
 
     await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1')
@@ -110,7 +110,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(removeButton).toBeVisible()
   })
 
-  test('TC-024 Add all 6 items (max)', async ({ pom }) => {
+  test('SAUC-T24 Add all 6 items (max)', async ({ pom }) => {
 
     const items = ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt', 'Sauce Labs Fleece Jacket', 'Sauce Labs Onesie', 'Test.allTheThings() T-Shirt (Red)'];
 
@@ -126,14 +126,14 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.page.getByRole('button', { name: 'Back Home' }).click()
   })
 
-  test('TC-025 Empty cart (0 items)', async ({ page }) => {
+  test('SAUC-T25 Empty cart (0 items)', async ({ page }) => {
     await page.goto(`${process.env.BASE_URL}/inventory.html`)
     await page.locator('[data-test="shopping-cart-link"]').click()
 
     await expect(page.locator('[data-test="inventory-item"]')).toHaveCount(0)
   })
 
-  test('TC-026 Remove item from inventory page', async ({ pom }) => {
+  test('SAUC-T26 Remove item from inventory page', async ({ pom }) => {
     await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
 
     await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1')
@@ -145,7 +145,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.page.locator('[data-test="shopping-cart-link"]')).toHaveAttribute('aria-label', 'Cart, empty')
   })
 
-  test('TC-027 Remove item from cart page', async ({ pom }) => {
+  test('SAUC-T27 Remove item from cart page', async ({ pom }) => {
     await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
 
     await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1')
@@ -155,7 +155,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.page.locator('[data-test="inventory-item"]')).toHaveCount(0)
   })
 
-  test('TC-028 Cart persists after page refresh and navigation', async ({ pom }) => {
+  test('SAUC-T28 Cart persists after page refresh and navigation', async ({ pom }) => {
     await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack']);
     await pom.cartPage.expectBadgeCount(1);
 
@@ -176,7 +176,7 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.cartPage.expectItemCount(1);
   })
 
-  test('TC-029 Continue Shopping returns to inventory', async ({ pom }) => {
+  test('SAUC-T29 Continue Shopping returns to inventory', async ({ pom }) => {
     await pom.cartPage.open();
     await expect(pom.page).toHaveURL(/cart\.html/);
 
@@ -185,7 +185,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.page.locator('[data-test="title"]')).toHaveText('Products');
   })
 
-  test('TC-030 End-to-end purchase (happy path)', async ({ pom }) => {
+  test('SAUC-T30 End-to-end purchase (happy path)', async ({ pom }) => {
     await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
     pom.cartPage.expectBadgeCount(1);
 
@@ -195,14 +195,14 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.checkOutFlow.checkoutFlow('Jason', 'Billones', '1123');
   })
 
-  test.fail('TC-034 Checkout with empty cart', async ({ pom }) => {
+  test.fail('SAUC-T34 Checkout with empty cart', async ({ pom }) => {
     pom.cartPage.expectBadgeCount(0);
     await pom.cartPage.open();
     pom.cartPage.expectItemCount(0);
     await pom.cartPage.checkout();
   })
 
-  test('TC-039 Back Home after order, cart cleared', async ({ pom }) => {
+  test('SAUC-T39 Back Home after order, cart cleared', async ({ pom }) => {
     await expect(pom.page).toHaveURL(/inventory\.html/);
     await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
     await pom.cartPage.expectBadgeCount(1)
@@ -220,7 +220,7 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.cartPage.expectEmpty();
   })
 
-  test('TC-044 Sort by name (Z-A)', async ({ pom }) => {
+  test('SAUC-T44 Sort by name (Z-A)', async ({ pom }) => {
 
     const expectedNames = await pom.sortOption.getExpectedNames('desc')
     await pom.sortOption.sortBy('za')
@@ -228,7 +228,7 @@ test.describe('Sorting and adding items to cart', () => {
     await expect(pom.sortOption.itemNames).toHaveText(expectedNames);
   })
 
-  test('TC-045 Sort by price (low-high)', async ({ pom }) => {
+  test('SAUC-T45 Sort by price (low-high)', async ({ pom }) => {
 
     const expectedPrices = await pom.sortOption.getExpectedPrices('asc')
     await pom.sortOption.sortBy('lohi')
