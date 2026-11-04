@@ -11,7 +11,6 @@ export const test = base.extend<FixtureTypes>({
         await page.goto('/inventory.html')
         const manager = new PageManager(page)
         await use(manager)
-
     }
 })
 

@@ -2,7 +2,7 @@ import { Page, Locator } from "@playwright/test";
 
 export type SortOption = 'az' | 'za' | 'lohi' | 'hilo';
 
-export class SortingFunction {
+export class SortingPage {
 
     readonly page: Page
     readonly sortDropdown: Locator

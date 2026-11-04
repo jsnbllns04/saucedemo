@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { PASSWORD } from '../test-data';
+import { PASSWORD, USERS } from '../test-data';
 
 
 test.use({ storageState: { cookies: [], origins: [] } })
@@ -127,8 +127,7 @@ test.describe('Login', () => {
     test('SAUC-T16 performance_glitch_user login delay', async ({ page }) => {
         const MAX_LOGIN_MS = 10_000; // generous limit so slow CI runners do not cause false failures
 
-        await page.getByRole('textbox', { name: 'Username' }).fill('performance_glitch_user');
-        await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
+        await page.getByRole('textbox', { name: 'Username' }).fill(USERS.performance);
         await page.getByRole('textbox', { name: 'Password' }).fill(PASSWORD);
 
         const start = Date.now();

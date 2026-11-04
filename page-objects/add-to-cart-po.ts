@@ -1,6 +1,6 @@
 import { Locator, Page } from "@playwright/test"
 
-export class AddItemsToCart {
+export class CartActions {
 
     readonly page: Page
 

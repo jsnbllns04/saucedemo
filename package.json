@@ -1,11 +1,15 @@
 {
   "name": "saucedemo",
   "version": "1.0.0",
-  "description": "",
+  "description": "SauceDemo Playwright tests",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:report": "npx playwright show-report"
+  },
   "keywords": [],
-  "author": "",
+  "author": "Jason Billones",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
