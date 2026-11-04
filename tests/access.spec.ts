@@ -41,13 +41,22 @@ test.describe('Access & user types', () => {
         await pom.inventoryPage.openInventoryPage()
         await pom.loginPage.login(USERS.standard, PASSWORD);
         const standardLayout = await pom.inventoryPage.getLayout();
+        const standardShot = await pom.page.screenshot({ fullPage: true, animations: 'disabled' });
         await pom.navigationPage.logout();
 
         // Same page as visual_user
         await pom.loginPage.login(USERS.visual, PASSWORD);
         await expect(pom.inventoryPage.title).toHaveText('Products');
         const visualLayout = await pom.inventoryPage.getLayout();
+        const visualShot = await pom.page.screenshot({ fullPage: true, animations: 'disabled' });
+
+        // Zephyr step: "record any visual differences with screenshots" -> attach both to the report
+        await test.info().attach('standard_user-inventory', { body: standardShot, contentType: 'image/png' });
+        await test.info().attach('visual_user-inventory', { body: visualShot, contentType: 'image/png' });
 
         expect(visualLayout).toEqual(standardLayout);
+        // Soft assertions so both checks are reported (known bug: visual_user differs)
+        expect.soft(visualLayout).toEqual(standardLayout);
+        expect.soft(visualShot.equals(standardShot), 'visual_user page looks identical to standard_user').toBe(true);
     })
 })

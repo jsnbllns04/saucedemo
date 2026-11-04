@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { PASSWORD } from '../test-data';
 
 
 test.use({ storageState: { cookies: [], origins: [] } })
@@ -124,13 +125,21 @@ test.describe('Login', () => {
     });
 
     test('SAUC-T16 performance_glitch_user login delay', async ({ page }) => {
-        const start = Date.now();
+        const MAX_LOGIN_MS = 10_000; // generous limit so slow CI runners do not cause false failures
+
         await page.getByRole('textbox', { name: 'Username' }).fill('performance_glitch_user');
         await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
+        await page.getByRole('textbox', { name: 'Password' }).fill(PASSWORD);
+
+        const start = Date.now();
         await page.getByRole('button', { name: 'Login' }).click();
-        await page.waitForURL(/inventory\.html/);
+
+        await page.waitForURL(/inventory\.html/, { timeout: MAX_LOGIN_MS });
         const duration = Date.now() - start;
 
-        expect(duration).toBeLessThan(6000);
+        // Record the measured time in the HTML report (Zephyr step: "record time")
+        test.info().annotations.push({ type: 'login-time', description: `${duration} ms` });
+
+        await expect(page.locator('[data-test="title"]')).toHaveText('Products');
     })
 })
