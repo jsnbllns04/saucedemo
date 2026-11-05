@@ -11,7 +11,7 @@ End-to-end test automation for [SauceDemo](https://www.saucedemo.com), built wit
 |---|---|
 | Login (valid and invalid credentials) | `tests/login.spec.ts` |
 | Access control (inventory without login, logout) | `tests/access.spec.ts` |
-| Inventory, sorting, cart | `tests/sauce.spec.ts` |
+| Inventory, sorting, cart | `tests/inventory-cart.spec.ts` |
 | Checkout flow and validation | `tests/checkout.spec.ts` |
 | Menu and footer links | `tests/menu-footer.spec.ts` |
 | Responsive layout | `tests/responsive.spec.ts` |
