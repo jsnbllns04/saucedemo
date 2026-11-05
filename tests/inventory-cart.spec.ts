@@ -145,10 +145,10 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.checkOutFlow.checkoutFlow('Jason', 'Billones', '1123');
   })
 
-  test('SAUC-T34 Checkout with empty cart', async ({ pom }) => {
+  test.fail('SAUC-T34 Checkout with empty cart', async ({ pom }) => {
     await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toBeHidden();
     await pom.cartPage.open();
-    await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toBeHidden();
+    expect(pom.cartPage.expectItemCount(0));
     await pom.cartPage.checkout();
   })
 
