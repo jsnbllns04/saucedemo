@@ -146,10 +146,10 @@ test.describe('Sorting and adding items to cart', () => {
   })
 
   test.fail('SAUC-T34 Checkout with empty cart', async ({ pom }) => {
-    await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toBeHidden();
     await pom.cartPage.open();
     expect(pom.cartPage.expectItemCount(0));
     await pom.cartPage.checkout();
+    await expect(pom.page).toHaveURL(/cart\.html/)
   })
 
   test('SAUC-T39 Back Home after order, cart cleared', async ({ pom }) => {
