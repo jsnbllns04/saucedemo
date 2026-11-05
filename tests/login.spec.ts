@@ -67,14 +67,14 @@ test.describe('Login', () => {
         {
             id: 'SAUC-T3',
             name: 'locked out user',
-            username: 'locked_out_user',
+            username: USERS.locked,
             password: process.env.PASSWORD!,
             error: 'Sorry, this user has been locked out',
         },
         {
             id: 'SAUC-T10',
             name: 'username with leading and trailing space',
-            username: ' standard_user ',
+            username: ' ' + USERS.standard + ' ',
             password: process.env.PASSWORD!,
             error: 'Username and password do not match any user in this service'
         },
