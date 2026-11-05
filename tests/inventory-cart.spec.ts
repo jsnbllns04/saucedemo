@@ -137,7 +137,7 @@ test.describe('Sorting and adding items to cart', () => {
 
   test('SAUC-T30 End-to-end purchase (happy path)', async ({ pom }) => {
     await pom.addItemsToCart.addItemsToCart(['Sauce Labs Backpack'])
-    pom.cartPage.expectBadgeCount(1);
+    await pom.cartPage.expectBadgeCount(1);
 
     await pom.cartPage.open()
     await expect(pom.page.locator('.cart_item').locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack')
@@ -145,10 +145,10 @@ test.describe('Sorting and adding items to cart', () => {
     await pom.checkOutFlow.checkoutFlow('Jason', 'Billones', '1123');
   })
 
-  test.fail('SAUC-T34 Checkout with empty cart', async ({ pom }) => {
-    pom.cartPage.expectBadgeCount(0);
+  test('SAUC-T34 Checkout with empty cart', async ({ pom }) => {
+    await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toBeHidden();
     await pom.cartPage.open();
-    pom.cartPage.expectItemCount(0);
+    await expect(pom.page.locator('[data-test="shopping-cart-badge"]')).toBeHidden();
     await pom.cartPage.checkout();
   })
 
