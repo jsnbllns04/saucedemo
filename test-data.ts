@@ -5,7 +5,7 @@ export const USERS = {
   problem: 'problem_user',
   visual: 'visual_user',
   locked: 'locked_out_user',
-  performance: 'performance_glitch_user'
+  performance: 'performance_glitch_user',
 };
 
 export const CHECKOUT_INFO = { firstName: 'Jason', lastName: 'Billones', postalCode: '1123' };
@@ -18,7 +18,7 @@ type Product = {
   description: string;
   price: string;
   addToCartId: string;
-}
+};
 export const productInformation: Product[] = [
   {
     name: 'Sauce Labs Backpack',
@@ -62,4 +62,4 @@ export const productInformation: Product[] = [
     price: '$15.99',
     addToCartId: 'add-to-cart-test.allthethings()-t-shirt-(red)',
   },
-]
+];

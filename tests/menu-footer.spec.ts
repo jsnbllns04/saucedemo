@@ -8,9 +8,7 @@ const socialLinks = [
   { name: 'linkedin', url: /linkedin\.com/ },
 ] as const;
 
-
 test.describe('Menu and Footer', () => {
-
   test('SAUC-T15 Logout returns to login page', async ({ pom }) => {
     await pom.navigationPage.logout();
 
@@ -18,22 +16,22 @@ test.describe('Menu and Footer', () => {
     await pom.inventoryPage.openInventoryPage();
     await expect(pom.page).toHaveURL('/');
     await expect(pom.loginPage.errorMessage).toContainText('You can only access');
-  })
+  });
 
   test('SAUC-T40 Reset App State clears cart', async ({ pom }) => {
-    await pom.addItemsToCart.addItemsToCart(items)
-    await pom.cartPage.expectBadgeCount(items.length)
+    await pom.addItemsToCart.addItemsToCart(items);
+    await pom.cartPage.expectBadgeCount(items.length);
     await pom.navigationPage.resetAppState();
 
     await expect(pom.cartPage.cartBadge).toBeHidden();
     await pom.cartPage.open();
     await pom.cartPage.expectEmpty();
-  })
+  });
 
   test('SAUC-T41 About link', async ({ pom }) => {
-    await pom.navigationPage.about()
+    await pom.navigationPage.about();
     await expect(pom.page).toHaveURL(/saucelabs\.com/);
-  })
+  });
 
   socialLinks.forEach(({ name, url }) => {
     test(`SAUC-T42 Footer social link opens correctly: ${name}`, async ({ pom }) => {
@@ -41,6 +39,6 @@ test.describe('Menu and Footer', () => {
       const link = pom.navigationPage.socialLink(name);
       await expect(link).toHaveAttribute('href', url);
       await expect(link).toHaveAttribute('target', '_blank');
-    })
-  })
-})
+    });
+  });
+});
