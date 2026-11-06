@@ -1,5 +1,7 @@
 # SauceDemo Test Automation
 
+[![Playwright Tests](https://github.com/jsnbllns04/saucedemo/actions/workflows/playwright.yml/badge.svg)](https://github.com/jsnbllns04/saucedemo/actions/workflows/playwright.yml)
+
 End-to-end test automation for [SauceDemo](https://www.saucedemo.com), built with **Playwright and TypeScript**. This is a practice project that follows the full testing process: test case design, tracking in Jira, automation, and CI.
 
 ## Overview
@@ -54,6 +56,12 @@ npx playwright test login.spec.ts      # run one file
 npx playwright test --project=chromium # run one browser
 npx playwright show-report             # open the HTML report
 ```
+
+## Code Quality
+
+- **ESLint** (with `eslint-plugin-playwright`) checks for mistakes such as unused code and missing `await`: `npm run lint`
+- **Prettier** keeps formatting consistent: `npm run format` (fix) or `npm run format:check` (check only)
+- Both run in CI before the tests, so a push with lint errors or messy formatting fails the build
 
 ## Author
 
