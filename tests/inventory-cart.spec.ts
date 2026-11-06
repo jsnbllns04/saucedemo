@@ -147,7 +147,7 @@ test.describe('Sorting and adding items to cart', () => {
 
   test.fail('SAUC-T34 Checkout with empty cart', async ({ pom }) => {
     await pom.cartPage.open();
-    await expect(pom.cartPage.expectItemCount(0));
+    await pom.cartPage.expectItemCount(0);
     await pom.cartPage.checkout();
     await expect(pom.page).toHaveURL(/cart\.html/)
   })
